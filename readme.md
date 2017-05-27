@@ -8,6 +8,10 @@ emcli is inspired by mutt, enable you send email in terminal handy.
 
 To install emcli, simply:
 
+    pip install emcli
+
+Or install emcli from source code:
+
     git clone https://github.com/lalor/emcli
     cd emcli
     sudo python setup.py install
