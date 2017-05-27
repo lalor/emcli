@@ -11,6 +11,7 @@ setup(
     description='A email client in terminal',
     packages=['emcli'],
     install_requires=['yagmail'],
+    tests_require=['nose', 'tox'],
     entry_points={
         'console_scripts': [
             'emcli=emcli:main',

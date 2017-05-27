@@ -1,11 +1,7 @@
-from __future__ import print_function
-
 import os
 import sys
 import ConfigParser
 import argparse
-import StringIO
-import fileinput
 
 import yagmail
 
