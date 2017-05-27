@@ -1,4 +1,4 @@
-# A email client in termail
+# A email client in terminal
 
 ## Introduction
 
