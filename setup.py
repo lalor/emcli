@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='emcli',
-    version='0.1',
+    version='0.2',
     author='Mingxing LAI',
     author_email='me@mingxinglai.com',
     url='https://github.com/lalor/emcli',
