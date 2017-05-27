@@ -18,7 +18,7 @@ def _argparse():
     parser.add_argument('-s', action='store', dest='subject', required=True, help='specify a subject (must be in quotes if it has spaces)')
     parser.add_argument('-a', action='store', nargs='*', dest='attaches', required=False, help='attach file(s) to the message')
     parser.add_argument('-f', action='store', dest='conf', required=False, help='specify an alternate .emcli.cnf file')
-    parser.add_argument('-r', action='store', nargs='*', dest='recipients', required=True, help='recipients')
+    parser.add_argument('-r', action='store', nargs='*', dest='recipients', required=True, help='recipient who you are sending the email to')
     parser.add_argument('-v', action='version', version='%(prog)s 0.1')
     return parser.parse_args()
 
