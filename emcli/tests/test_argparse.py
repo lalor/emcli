@@ -38,7 +38,6 @@ class TestArgparse(unittest.TestCase):
     def test_missing_subject(self):
         args = ['-a', 'a.py', 'b.py', '-r', 'a@163.com', 'b@163.com', '-f', 'config.cnf']
         sys.argv.extend(args)
-        print sys.argv
         with self.assertRaises(SystemExit):
             parser = get_argparse()
 
