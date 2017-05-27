@@ -25,7 +25,7 @@ save emcli settings in `~/.emcli.cnf`:
 
 send email to multiple recipents:
 
-    echo "This email come from terminal" | python emcli -s "This is subject" -r joy_lmx@163.com me@mingxinglai.com
+    echo "This email come from terminal" | emcli -s "This is subject" -r joy_lmx@163.com me@mingxinglai.com
 
 send email with attaches:
 
