@@ -61,7 +61,7 @@ def send_email(meta):
     content = get_content()
     body = [content]
     if meta.attaches:
-        body.extend(attaches)
+        body.extend(meta.attaches)
 
     with yagmail.SMTP(user=meta.username, password=meta.password,
                       host=meta.smtp_server, port=int(meta.smtp_port)) as yag:
