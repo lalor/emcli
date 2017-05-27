@@ -14,6 +14,7 @@ from logger import get_logger
 
 logger = get_logger()
 
+
 def _argparse():
     parser = argparse.ArgumentParser(description='A email client in terminal')
     parser.add_argument('-s', action='store', dest='subject', required=True, help='specify a subject (must be in quotes if it has spaces)')
@@ -28,12 +29,6 @@ def get_config_file(config_file):
     if config_file is None:
         config_file = os.path.expanduser('~/.emcli.cnf')
     return config_file
-
-
-def exit_if_file_not_exist(filename):
-    if not os.path.exists(filename):
-        logger.error('{0} is not exists'.format(config_file))
-        raise SystemExit()
 
 
 def get_meta_from_config(config_file):
@@ -55,33 +50,41 @@ def get_meta_from_config(config_file):
     return meta
 
 
-def get_content():
+def get_email_content():
     return sys.stdin.read()
 
 
 def send_email(meta):
-    content = get_content()
+    content = get_email_content()
     body = [content]
     if meta.attaches:
         body.extend(meta.attaches)
 
     with yagmail.SMTP(user=meta.username, password=meta.password,
                       host=meta.smtp_server, port=int(meta.smtp_port)) as yag:
-        logger.info('send email "{0}" to {1}'.format(meta.subject, meta.recipients))
-        yag.send(meta.recipients, meta.subject, body)
+        logger.info('ready to send email "{0}" to {1}'.format(meta.subject, meta.recipients))
+        ret = yag.send(meta.recipients, meta.subject, body)
 
 
 def main():
     parser = _argparse()
 
     config_file = get_config_file(parser.conf)
-    exit_if_file_not_exist(config_file)
 
-    meta = get_meta_from_config(get_config_file(parser.conf))
+    if not os.path.exists(config_file):
+        logger.error('{0} is not exists'.format(config_file))
+        raise SystemExit()
+    else:
+        meta = get_meta_from_config(config_file)
 
-    meta.attaches = parser.attaches
-    meta.recipients = parser.recipients
     meta.subject = parser.subject
+    meta.recipients = parser.recipients
+    meta.attaches = parser.attaches
+
+    for attach in meta.attaches:
+        if not os.path.exists(attach):
+            logger.error('{0} is not exists'.format(attach))
+            raise SystemExit()
 
     send_email(meta)
 
