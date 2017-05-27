@@ -1,8 +1,10 @@
 import os
 import sys
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 import argparse
-
 import yagmail
 
 from storage import Storage
@@ -11,7 +13,7 @@ from logger import get_logger
 logger = get_logger()
 
 
-def _argparse():
+def get_argparse():
     parser = argparse.ArgumentParser(description='A email client in terminal')
     parser.add_argument('-s', action='store', dest='subject', required=True, help='specify a subject (must be in quotes if it has spaces)')
     parser.add_argument('-a', action='store', nargs='*', dest='attaches', required=False, help='attach file(s) to the message')
@@ -63,7 +65,7 @@ def send_email(meta):
 
 
 def main():
-    parser = _argparse()
+    parser = get_argparse()
 
     config_file = get_config_file(parser.conf)
 
