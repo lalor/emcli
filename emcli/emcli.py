@@ -2,7 +2,6 @@ from __future__ import print_function
 
 import os
 import sys
-import logging
 import ConfigParser
 import argparse
 import StringIO
@@ -11,7 +10,9 @@ import fileinput
 import yagmail
 
 from storage import Storage
+from logger import get_logger
 
+logger = get_logger()
 
 def _argparse():
     parser = argparse.ArgumentParser(description='A email client in terminal')
@@ -31,7 +32,8 @@ def get_config_file(config_file):
 
 def exit_if_file_not_exist(filename):
     if not os.path.exists(filename):
-        raise SystemExit('{0} is not exists'.format(config_file))
+        logger.error('{0} is not exists'.format(config_file))
+        raise SystemExit()
 
 
 def get_meta_from_config(config_file):
@@ -45,10 +47,10 @@ def get_meta_from_config(config_file):
         try:
             val = config.get('DEFAULT', key)
         except (ConfigParser.NoSectionError, ConfigParser.NoOptionError) as err:
-            logging.error(err)
+            logger.error(err)
             raise SystemExit(err)
         else:
-            meta.key = val
+            meta[key] = val
 
     return meta
 
@@ -65,6 +67,7 @@ def send_email(meta):
 
     with yagmail.SMTP(user=meta.username, password=meta.password,
                       host=meta.smtp_server, port=int(meta.smtp_port)) as yag:
+        logger.info('send email "{0}" to {1}'.format(meta.subject, meta.recipients))
         yag.send(meta.recipients, meta.subject, body)
 
 
